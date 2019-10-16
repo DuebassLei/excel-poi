@@ -1,0 +1,47 @@
+spring:
+  # 数据源配置
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/poi?characterEncoding=utf8&serverTimezone=UTC
+    driverClassName: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML5
+    encoding: UTF-8
+    #    设置缓存为false 为了热部署 host refresh
+    cache: false
+    #    设置freemarker
+  freemarker:
+    allow-request-override: false
+    #    开发过程建议关闭缓存
+    cache: true
+    check-template-location: false
+    charset: UTF-8
+    content-type: text/html; charset=utf-8
+    expose-request-attributes: false
+    expose-session-attributes: false
+    expose-spring-macro-helpers: false
+    #    prefix: xx
+    request-context-attribute:
+    #    settings:
+    # 默认后缀就是.ftl
+    #    suffix: .ftl
+    #    template-loader-path: classPath:/templates/
+    #    view-names:
+  #热部署插件
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+
+mybatis:
+  # 实体类包
+  type-aliases-package:   com.gaolei.excelpoi.model
+  # mapper.xml文件
+  mapper-locations: classpath:mapper/*.xml
+
+server:
+  port: 8080
