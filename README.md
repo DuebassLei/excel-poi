@@ -6,6 +6,7 @@
         - b. ReadExcel 读取数据
         - c. FormulaExcel 插入数据（公式计算）
         - d. ReadWithFormula 读取数据（公式计算）
+        - e. formatExcel 格式化单元格常规
 ## 环境
 - IntelliJ IDEA 2018.2
 - JDK 1.8
@@ -275,6 +276,63 @@ public class FomatExcel {
 }
 ```
 
-## 查看更多
-[DuebassLei的CSDN小窝](https://blog.csdn.net/m0_37903882)
+## 将数据库数据写入Excel并下载
+### 关键代码 `code` 
+```java
+ @PostMapping("user/export")
+    @ResponseBody
+    @ApiOperation(value="导出用户", httpMethod = "POST",produces="application/json",notes = "导出用户")
+    public ResultBean  exportUser(HttpServletResponse response) throws IOException{
+        List<SysUser> userList =  sysUserService.getUserList(); // 获取用户数据
+        Map<String, String> fieldMap = new LinkedHashMap<String, String>(); // 数据列信息
+    	fieldMap.put("id", "编号");
+     	fieldMap.put("name", "姓名");
+     	fieldMap.put("pwd", "密码");
+     	fieldMap.put("tel", "电话");
+     	fieldMap.put("code", "编码");
+     	fieldMap.put("comment", "备注");
+        XSSFWorkbook workbook = new XSSFWorkbook(); // 新建工作簿对象
+        XSSFSheet sheet = workbook.createSheet("UserList");// 创建sheet
+        int rowNum = 0;
+        Row row =  sheet.createRow(rowNum);// 创建第一行对象,设置表标题
+        Cell cell;
+        int cellNum = 0;
+        for (String name:fieldMap.values()){
+            cell = row.createCell(cellNum);
+            cell.setCellValue(name);
+            cellNum++;
+        }
+        int rows = 1;
+         for (SysUser user: userList){//遍历数据插入excel中
+            row = sheet.createRow(rows);
+            int col = 0;
+            row.createCell(col).setCellValue(user.getId()); // 编号id
+            row.createCell(col+1).setCellValue(user.getName()); // 姓名Name
+            row.createCell(col+2).setCellValue(user.getPwd()); // 密码pwd
+            row.createCell(col+3).setCellValue(user.getTel()); // 电话tel
+            row.createCell(col+4).setCellValue(user.getCode()); // 编码
+            row.createCell(col+5).setCellValue(user.getComment()); // 备注comment
+            rows++;
+        }
+        String fileName = "userInfo";
+        OutputStream out =null;
+        try {
+            out = response.getOutputStream();
+            response.reset();
+            response.addHeader("Content-Disposition", "attachment; filename=" + fileName + ".xlsx");
+            response.setContentType("application/vnd.ms-excel;charset=utf-8");
+            workbook.write(out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally {
+            out.flush();
+            out.close();
+        }
+        return ResultBean.success();
+    }
+```
+### Swagger测试
+
+## 更多详情
+请移步[DuebassLei的CSDN小窝](https://blog.csdn.net/m0_37903882/article/details/102592683)
 

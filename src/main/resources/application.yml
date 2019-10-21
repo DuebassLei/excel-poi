@@ -9,7 +9,7 @@ spring:
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
-    mode: HTML5
+    mode: HTML
     encoding: UTF-8
     #    设置缓存为false 为了热部署 host refresh
     cache: false
@@ -44,4 +44,4 @@ mybatis:
   mapper-locations: classpath:mapper/*.xml
 
 server:
-  port: 8080
+  port: 9090

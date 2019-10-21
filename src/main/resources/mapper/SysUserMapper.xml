@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gaolei.excelpoi.persistence.dao.SysUserMapper">
+  <resultMap id="BaseResultMap" type="com.gaolei.excelpoi.model.SysUser">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="PWD" jdbcType="VARCHAR" property="pwd" />
+    <result column="TEL" jdbcType="VARCHAR" property="tel" />
+    <result column="CODE" jdbcType="VARCHAR" property="code" />
+    <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+    <result column="DEPT_ID" jdbcType="VARCHAR" property="deptId" />
+    <result column="ROLE_ID" jdbcType="VARCHAR" property="roleId" />
+    <result column="COMMENT" jdbcType="VARCHAR" property="comment" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, PWD, TEL, CODE, EMAIL, DEPT_ID, ROLE_ID, COMMENT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from sys_user
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <!--&lt;!&ndash;查询所用用户 &ndash;&gt;-->
+  <!--<select id="getUserList" parameterType="java.lang.String" resultMap="BaseResultMap">-->
+    <!--select-->
+    <!--<include refid="Base_Column_List" />-->
+    <!--from sys_user-->
+    <!--where ID = #{id,jdbcType=VARCHAR}-->
+  <!--</select>-->
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from sys_user
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.gaolei.excelpoi.model.SysUser">
+    insert into sys_user (ID, NAME, PWD, 
+      TEL, CODE, EMAIL, DEPT_ID, 
+      ROLE_ID, COMMENT)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{pwd,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{deptId,jdbcType=VARCHAR}, 
+      #{roleId,jdbcType=VARCHAR}, #{comment,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gaolei.excelpoi.model.SysUser">
+    insert into sys_user
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="pwd != null">
+        PWD,
+      </if>
+      <if test="tel != null">
+        TEL,
+      </if>
+      <if test="code != null">
+        CODE,
+      </if>
+      <if test="email != null">
+        EMAIL,
+      </if>
+      <if test="deptId != null">
+        DEPT_ID,
+      </if>
+      <if test="roleId != null">
+        ROLE_ID,
+      </if>
+      <if test="comment != null">
+        COMMENT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null">
+        #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null">
+        #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null">
+        #{comment,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gaolei.excelpoi.model.SysUser">
+    update sys_user
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="pwd != null">
+        PWD = #{pwd,jdbcType=VARCHAR},
+      </if>
+      <if test="tel != null">
+        TEL = #{tel,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null">
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="deptId != null">
+        DEPT_ID = #{deptId,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null">
+        ROLE_ID = #{roleId,jdbcType=VARCHAR},
+      </if>
+      <if test="comment != null">
+        COMMENT = #{comment,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gaolei.excelpoi.model.SysUser">
+    update sys_user
+    set NAME = #{name,jdbcType=VARCHAR},
+      PWD = #{pwd,jdbcType=VARCHAR},
+      TEL = #{tel,jdbcType=VARCHAR},
+      CODE = #{code,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      DEPT_ID = #{deptId,jdbcType=VARCHAR},
+      ROLE_ID = #{roleId,jdbcType=VARCHAR},
+      COMMENT = #{comment,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
