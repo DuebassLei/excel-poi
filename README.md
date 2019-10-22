@@ -1,3 +1,8 @@
+# 内容
+ 1. 使用Poi自定义及样式导出Excel文件
+ 2. 使用freemarker动态导出Word文件
+
+
 # Apache POI对Excel的基本操作
 ## code目录
 - com.gaolei.excelpoi
@@ -331,8 +336,11 @@ public class FomatExcel {
         return ResultBean.success();
     }
 ```
+# freemarker模板动态生成word文档
 
-#使用`freemarker`模板动态导出`word`
+## 前言
+
+使用`freemarker`模板动态导出`word`文件
 
 ## 准备
 
@@ -346,17 +354,26 @@ public class FomatExcel {
   - Word `2003`  `.doc` 格式
   - spring-boot-starter-freemarker `2.1.9`
 
-## 模板准备
+  
+
+## 简单模板准备
 
 ### <一> `word 2003` 新建`.doc` 模板
+![简单模板](https://img-blog.csdnimg.cn/20191022145558777.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTAzODgy,size_16,color_FFFFFF,t_70)
 
 ### <二> 另存为`.xml` 文件，格式化代码，并检查是否存在变量分离问题，如图
+![error](https://img-blog.csdnimg.cn/20191022145623982.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTAzODgy,size_16,color_FFFFFF,t_70)
 
+
+调整后
+
+![true](https://img-blog.csdnimg.cn/20191022145643363.png)
 ### <三> 重命名为`.ftl`模板`freemarker`文件
+![ftl文件](https://img-blog.csdnimg.cn/20191022145709515.png)
 
-![模板文件](C:\Users\Gaolei\AppData\Roaming\Typora\typora-user-images\1571650345798.png)
 
 ## Springboot导出简单word
+
 ### 使用`freemarker`模板引擎
 
 ```xml
@@ -365,6 +382,7 @@ public class FomatExcel {
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
 ```
+
 ### 配置`freemarker` 
 
 ```yml
@@ -387,6 +405,7 @@ public class FomatExcel {
 
 ### 将模板`UserInfo.flt `文件放入项目
 
+![import](https://img-blog.csdnimg.cn/20191022145811856.png)
 ### 测试`Controller`代码
 
 ```java
@@ -416,12 +435,27 @@ public class FomatExcel {
         return ResultBean.success();
     }
 ```
-默认保存在项目根目录,数据成功导出得到`word`
 
-## 导出复杂word
+### `Swagger`测试
+![swagger](https://img-blog.csdnimg.cn/20191022145827118.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTAzODgy,size_16,color_FFFFFF,t_70)
+### 默认保存在项目根目录
 
-### 新建模板,操作同上
+![path](https://img-blog.csdnimg.cn/20191022145842551.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTAzODgy,size_16,color_FFFFFF,t_70)
+### 数据成功导出得到`word`
+
+![数据查看](https://img-blog.csdnimg.cn/20191022145901439.png)
+
+
+## 复杂模板word导出
+
+### 模板准备
+
+操作同上，模板如下
+
+![复杂模板](https://img-blog.csdnimg.cn/20191022145921144.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTAzODgy,size_16,color_FFFFFF,t_70)
+
 ### Controller测试
+
 ```java
 	@PostMapping("user/requireInfo")
     @ResponseBody
@@ -457,6 +491,64 @@ public class FomatExcel {
         	...
     </#list>
 ```
+
+![遍历数据](https://img-blog.csdnimg.cn/20191022145935830.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTAzODgy,size_16,color_FFFFFF,t_70)
+
+### 导出效果
+![数据展示](https://img-blog.csdnimg.cn/20191022145950416.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTAzODgy,size_16,color_FFFFFF,t_70)
+## 导出带图片Word
+### 模板准备
+![模板带图](https://img-blog.csdnimg.cn/2019102216524642.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTAzODgy,size_16,color_FFFFFF,t_70)
+### Controller
+```java
+ @PostMapping("user/exportPic")
+    @ResponseBody
+    @ApiOperation(value="导出带图片的Word", httpMethod = "POST",produces="application/json",notes = "导出带图片的Word")
+    public ResultBean exportPic() throws IOException {
+        Configuration configuration = new Configuration();
+        configuration.setDefaultEncoding("utf-8");
+        configuration.setClassForTemplateLoading(this.getClass(), "/templates/code");
+        Template template = configuration.getTemplate("userPic.ftl");
+        Map<String,Object> map = new HashMap<>();
+        map.put("name","gaolei");
+        map.put("date","2015-10-12");
+        map.put("imgCode",imageToString());
+        File outFile = new File("userWithPicture.doc");
+        Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile),"UTF-8"));
+        try {
+            template.process(map,out);
+            out.flush();
+            out.close();
+            return null;
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
+        return  ResultBean.success();
+    }
+
+    public static String imageToString() {
+        String imgFile = "E:\\gitee\\excel-poi\\src\\main\\resources\\static\\img\\a.png";
+        InputStream in = null;
+        byte[] data = null;
+        try {
+            in = new FileInputStream(imgFile);
+            data = new byte[in.available()];
+            in.read(data);
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String imageCodeBase64 =  Base64Utils.encodeToString(data);
+
+        return imageCodeBase64;
+    }
+```
+### `Swagger`测试
+![swagger](https://img-blog.csdnimg.cn/20191022170704539.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTAzODgy,size_16,color_FFFFFF,t_70)
+### 导出效果
+![效果](https://img-blog.csdnimg.cn/2019102217080419.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L20wXzM3OTAzODgy,size_16,color_FFFFFF,t_70)
+
+
 ## 更多详情
 请移步[DuebassLei的CSDN小窝](https://blog.csdn.net/m0_37903882)
 

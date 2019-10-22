@@ -18,18 +18,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.Base64Utils;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.Style;
 import java.io.*;
-
 import java.util.*;
 
 /**
  * @Author: GaoLei
  * @Date: 2019/10/16 11:59
  * @Blog https://blog.csdn.net/m0_37903882
- * @Description:
+ * @Description: Excel ,word 导出
  */
 @Controller
 @RequestMapping("sys/v1")
@@ -156,6 +155,55 @@ public class BaseController {
         }
         return ResultBean.success();
     }
+
+    @PostMapping("user/exportPic")
+    @ResponseBody
+    @ApiOperation(value="导出带图片的Word", httpMethod = "POST",produces="application/json",notes = "导出带图片的Word")
+    public ResultBean exportPic() throws IOException {
+        Configuration configuration = new Configuration();
+        configuration.setDefaultEncoding("utf-8");
+        configuration.setClassForTemplateLoading(this.getClass(), "/templates/code");
+        Template template = configuration.getTemplate("userPic.ftl");
+        Map<String,Object> map = new HashMap<>();
+        map.put("name","gaolei");
+        map.put("date","2015-10-12");
+        map.put("imgCode",imageToString());
+        File outFile = new File("userWithPicture.doc");
+        Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile),"UTF-8"));
+        try {
+            template.process(map,out);
+            out.flush();
+            out.close();
+            return null;
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
+        return  ResultBean.success();
+    }
+
+    public static String imageToString() {
+        String imgFile = "E:\\gitee\\excel-poi\\src\\main\\resources\\static\\img\\a.png";
+        InputStream in = null;
+        byte[] data = null;
+        try {
+            in = new FileInputStream(imgFile);
+            data = new byte[in.available()];
+            in.read(data);
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String imageCodeBase64 =  Base64Utils.encodeToString(data);
+
+        return imageCodeBase64;
+    }
+
+    public static void main(String[] args) {
+        System.out.println("image:"+imageToString());
+    }
+
+
+
 
 
 }
