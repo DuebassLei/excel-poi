@@ -1,8 +1,13 @@
 package com.gaolei.excelpoi.controller;
 
+import com.gaolei.excelpoi.model.Study;
 import com.gaolei.excelpoi.model.SysUser;
+import com.gaolei.excelpoi.model.UserInfo;
 import com.gaolei.excelpoi.persistence.manager.SysUserService;
 import com.gaolei.excelpoi.utils.ResultBean;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.poi.ss.usermodel.Cell;
@@ -15,8 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.OutputStream;
+import javax.swing.text.Style;
+import java.io.*;
 
 import java.util.*;
 
@@ -97,4 +102,60 @@ public class BaseController {
         }
         return ResultBean.success();
     }
+
+    @PostMapping("user/doc")
+    @ResponseBody
+    @ApiOperation(value="导出用户doc", httpMethod = "POST",produces="application/json",notes = "导出用户doc")
+    public ResultBean exportDoc() throws  IOException{
+
+        Configuration configuration = new Configuration();
+        configuration.setDefaultEncoding("utf-8");
+        configuration.setClassForTemplateLoading(this.getClass(), "/templates/code");
+        Template template = configuration.getTemplate("UserInfo.ftl");
+
+        List<Study> studyList =new ArrayList<>();
+        studyList.add(new Study("gaolei","root","1","user","123456"));
+        studyList.add(new Study("zhangsan","123","15","admin","12232"));
+
+        Map<String,Object> resultMap = new HashMap<>();
+        resultMap.put("studyList",studyList);
+        File outFile = new File("UserInfoTest.doc");
+        Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile),"UTF-8"));
+        try {
+            template.process(resultMap,out);
+            out.flush();
+            out.close();
+            return null;
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
+        return ResultBean.success();
+    }
+
+    @PostMapping("user/requireInfo")
+    @ResponseBody
+    @ApiOperation(value="导出用户确认信息表doc", httpMethod = "POST",produces="application/json",notes = "导出用户确认信息表doc")
+    public ResultBean  userRequireInfo() throws  IOException{
+        Configuration configuration = new Configuration();
+        configuration.setDefaultEncoding("utf-8");
+        configuration.setClassForTemplateLoading(this.getClass(), "/templates/code");
+        Template template = configuration.getTemplate("need.ftl");
+        Map<String , Object> resultMap = new HashMap<>();
+        List<UserInfo> userInfoList = new ArrayList<>();
+        userInfoList.add(new UserInfo("2019","安全环保处质量安全科2608室","风险研判","9:30","10:30","风险研判","风险研判原型设计","参照甘肃分公司提交的分析研判表，各个二级单位维护自己的风险研判信息，需要一个简单的风险上报流程，各个二级单位可以看到所有的分析研判信息作为一个知识成果共享。","张三","李四"));
+        resultMap.put("userInfoList",userInfoList);
+        File outFile = new File("userRequireInfo.doc");
+        Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile),"UTF-8"));
+        try {
+            template.process(resultMap,out);
+            out.flush();
+            out.close();
+            return null;
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
+        return ResultBean.success();
+    }
+
+
 }

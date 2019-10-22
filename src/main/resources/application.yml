@@ -24,13 +24,11 @@ spring:
     expose-request-attributes: false
     expose-session-attributes: false
     expose-spring-macro-helpers: false
-    #    prefix: xx
     request-context-attribute:
-    #    settings:
     # 默认后缀就是.ftl
-    #    suffix: .ftl
-    #    template-loader-path: classPath:/templates/
-    #    view-names:
+    suffix: .ftl
+    template-loader-path: classPath:/templates/code/
+
   #热部署插件
   devtools:
     restart:

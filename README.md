@@ -331,8 +331,132 @@ public class FomatExcel {
         return ResultBean.success();
     }
 ```
-### Swagger测试
 
+#使用`freemarker`模板动态导出`word`
+
+## 准备
+
+- 环境
+
+  - IntellJ IDEA 2018.2
+  - SringBoot 2.1.9
+
+- 版本
+
+  - Word `2003`  `.doc` 格式
+  - spring-boot-starter-freemarker `2.1.9`
+
+## 模板准备
+
+### <一> `word 2003` 新建`.doc` 模板
+
+### <二> 另存为`.xml` 文件，格式化代码，并检查是否存在变量分离问题，如图
+
+### <三> 重命名为`.ftl`模板`freemarker`文件
+
+![模板文件](C:\Users\Gaolei\AppData\Roaming\Typora\typora-user-images\1571650345798.png)
+
+## Springboot导出简单word
+### 使用`freemarker`模板引擎
+
+```xml
+  		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-freemarker</artifactId>
+        </dependency>
+```
+### 配置`freemarker` 
+
+```yml
+  #    设置freemarker
+  freemarker:
+    allow-request-override: false
+    #    开发过程建议关闭缓存
+    cache: true
+    check-template-location: false
+    charset: UTF-8
+    content-type: text/html; charset=utf-8
+    expose-request-attributes: false
+    expose-session-attributes: false
+    expose-spring-macro-helpers: false
+    request-context-attribute:
+    # 默认后缀就是.ftl
+    suffix: .ftl
+    template-loader-path: classPath:/templates/code/    
+```
+
+### 将模板`UserInfo.flt `文件放入项目
+
+### 测试`Controller`代码
+
+```java
+    @PostMapping("user/doc")
+    @ResponseBody
+    @ApiOperation(value="导出用户doc", httpMethod = "POST",produces="application/json",notes = "导出用户doc")
+    public ResultBean exportDoc() throws  IOException{
+        Configuration configuration = new Configuration();
+        configuration.setDefaultEncoding("utf-8");
+        configuration.setClassForTemplateLoading(this.getClass(), "/templates/code");
+        Template template = configuration.getTemplate("UserInfo.ftl");
+        Map<String, Object> dataMap = new HashMap<>();
+        dataMap.put("name","gaolei");
+        dataMap.put("id","02201");
+        dataMap.put("code","251525v");
+        dataMap.put("pwd","root");
+        dataMap.put("tel","08583552");
+        File outFile = new File("UserInfoTest.doc");
+        Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile),"UTF-8"));
+        try {
+            template.process(dataMap,out);
+            out.flush();
+            out.close();
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
+        return ResultBean.success();
+    }
+```
+默认保存在项目根目录,数据成功导出得到`word`
+
+## 导出复杂word
+
+### 新建模板,操作同上
+### Controller测试
+```java
+	@PostMapping("user/requireInfo")
+    @ResponseBody
+    @ApiOperation(value="导出用户确认信息表doc", httpMethod = "POST",produces="application/json",notes = "导出用户确认信息表doc")
+    public ResultBean  userRequireInfo() throws  IOException{
+        Configuration configuration = new Configuration();
+        configuration.setDefaultEncoding("utf-8");
+        configuration.setClassForTemplateLoading(this.getClass(), "/templates/code");
+        Template template = configuration.getTemplate("need.ftl");
+        Map<String , Object> resultMap = new HashMap<>();
+        List<UserInfo> userInfoList = new ArrayList<>();
+        userInfoList.add(new UserInfo("2019","安全环保处质量安全科2608室","风险研判","9:30","10:30","风险研判","风险研判原型设计","参照甘肃分公司提交的分析研判表，各个二级单位维护自己的风险研判信息，需要一个简单的风险上报流程，各个二级单位可以看到所有的分析研判信息作为一个知识成果共享。","张三","李四"));
+        resultMap.put("userInfoList",userInfoList);
+        File outFile = new File("userRequireInfo.doc");
+        Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile),"UTF-8"));
+        try {
+            template.process(resultMap,out);
+            out.flush();
+            out.close();
+            return null;
+        } catch (TemplateException e) {
+            e.printStackTrace();
+        }
+        return ResultBean.success();
+    }
+```
+
+### `freemarker` 遍历
+
+```xml
+	<#list userInfoList as user>
+			获取值：${user.name} 
+        	...
+    </#list>
+```
 ## 更多详情
-请移步[DuebassLei的CSDN小窝](https://blog.csdn.net/m0_37903882/article/details/102592683)
+请移步[DuebassLei的CSDN小窝](https://blog.csdn.net/m0_37903882)
 
