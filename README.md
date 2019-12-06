@@ -1,3 +1,9 @@
+# 更新日志log
+[] 2019/12/06 新增 poi-tl 测试demo
+
+# 已实践
+[] poi 导出excel
+[] freemarker 导出word
 # 内容
  1. 使用Poi自定义及样式导出Excel文件
  2. 使用freemarker动态导出Word文件
