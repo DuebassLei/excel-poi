@@ -20,37 +20,37 @@ import java.util.Iterator;
 public class ReadWithFormula {
 
     public static void main(String[] args) {
-        XSSFWorkbook workbook = new XSSFWorkbook();
-
-        try {
-            FileInputStream file  = new FileInputStream(new File("formulaTest.xlsx"));
-            FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
-
-            XSSFSheet sheet = workbook.getSheetAt(0);
-            // 遍历Row
-            Iterator<Row> rowIterator = sheet.iterator();
-            while (rowIterator.hasNext()){
-                Row row = rowIterator.next();
-                // 遍历Cell
-                Iterator<Cell> cellIterator = row.cellIterator();
-                while (cellIterator.hasNext()){
-                    Cell cell = cellIterator.next();
-                    switch (evaluator.evaluateInCell(cell).getCellType()){
-                        case Cell.CELL_TYPE_NUMERIC:
-                            System.out.println(cell.getNumericCellValue() + "tt");
-                            break;
-                        case Cell.CELL_TYPE_STRING:
-                            System.out.println(cell.getStringCellValue() + "tt");
-                            break;
-                        case Cell.CELL_TYPE_FORMULA:
-                            break;
-                    }
-                }
-                System.out.println("");
-            }
-            file.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        XSSFWorkbook workbook = new XSSFWorkbook();
+//
+//        try {
+//            FileInputStream file  = new FileInputStream(new File("formulaTest.xlsx"));
+//            FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+//
+//            XSSFSheet sheet = workbook.getSheetAt(0);
+//            // 遍历Row
+//            Iterator<Row> rowIterator = sheet.iterator();
+//            while (rowIterator.hasNext()){
+//                Row row = rowIterator.next();
+//                // 遍历Cell
+//                Iterator<Cell> cellIterator = row.cellIterator();
+//                while (cellIterator.hasNext()){
+//                    Cell cell = cellIterator.next();
+//                    switch (evaluator.evaluateInCell(cell).getCellType()){
+//                        case Cell.CELL_TYPE_NUMERIC:
+//                            System.out.println(cell.getNumericCellValue() + "tt");
+//                            break;
+//                        case Cell.CELL_TYPE_STRING:
+//                            System.out.println(cell.getStringCellValue() + "tt");
+//                            break;
+//                        case Cell.CELL_TYPE_FORMULA:
+//                            break;
+//                    }
+//                }
+//                System.out.println("");
+//            }
+//            file.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 }

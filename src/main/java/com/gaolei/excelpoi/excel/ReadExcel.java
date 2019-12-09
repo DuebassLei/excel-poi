@@ -33,12 +33,12 @@ public class ReadExcel {
                 while (cellIterator.hasNext()){
                     Cell cell = cellIterator.next();
                     switch (cell.getCellType()){
-                        case Cell.CELL_TYPE_NUMERIC:
-                            System.out.println(cell.getNumericCellValue() + "t");
-                            break;
-                        case Cell.CELL_TYPE_STRING:
-                            System.out.println(cell.getStringCellValue() + "t");
-                            break;
+//                        case Cell.CELL_TYPE_NUMERIC:
+//                            System.out.println(cell.getNumericCellValue() + "t");
+//                            break;
+//                        case Cell.CELL_TYPE_STRING:
+//                            System.out.println(cell.getStringCellValue() + "t");
+//                            break;
                     }
                 }
                 System.out.println("");

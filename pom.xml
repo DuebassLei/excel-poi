@@ -66,7 +66,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--Apache POI -->
+        <!--Apache POI-->
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
@@ -81,12 +81,6 @@
             <groupId>org.apache.poi</groupId>
             <artifactId>poi-ooxml-schemas</artifactId>
             <version>3.9</version>
-        </dependency>
-        <!-- word导出相关 -->
-        <dependency>
-            <groupId>com.deepoove</groupId>
-            <artifactId>poi-tl</artifactId>
-            <version>1.6.0</version>
         </dependency>
         <!--引入Swagger2-->
         <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
