@@ -1,23 +1,12 @@
-# 更新日志log
-[] 2019/12/06 新增 poi-tl 测试demo
+# :alembic: 更新日志log
+-[x] 2019/12/06 新增 poi-tl 测试demo
 
-# 已实践
-[] poi 导出excel
-[] freemarker 导出word
-# 内容
- 1. 使用Poi自定义及样式导出Excel文件
- 2. 使用freemarker动态导出Word文件
+# :star: 已实践
+- [x] poi自定义及样式导出Excel文件
+- [x] freemarker动态导出Word模板文件
 
+# :bookmark: Apache poi对Excel的基本操作
 
-# Apache POI对Excel的基本操作
-## code目录
-- com.gaolei.excelpoi
-    - excel
-        - a. WriterExcel 插入数据
-        - b. ReadExcel 读取数据
-        - c. FormulaExcel 插入数据（公式计算）
-        - d. ReadWithFormula 读取数据（公式计算）
-        - e. formatExcel 格式化单元格常规
 ## 环境
 - IntelliJ IDEA 2018.2
 - JDK 1.8
@@ -342,7 +331,8 @@ public class FomatExcel {
         return ResultBean.success();
     }
 ```
-# freemarker模板动态生成word文档
+
+# :bookmark: freemarker模板动态生成word文档
 
 ## 前言
 

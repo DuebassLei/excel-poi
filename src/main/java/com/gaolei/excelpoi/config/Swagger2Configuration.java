@@ -30,7 +30,7 @@ public class Swagger2Configuration {
     }
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("ApachePOI Excel操作接口文档 ")
+                .title("文件操作接口文档")
                 .contact(new Contact("海边的小溪鱼","https://blog.csdn.net/m0_37903882","1130122701@qq.com"))
                 .version("1.0")
                 .build();

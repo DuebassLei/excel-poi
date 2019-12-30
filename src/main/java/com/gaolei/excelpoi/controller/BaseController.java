@@ -50,6 +50,11 @@ public class BaseController {
         return ResultBean.success(user);
     }
 
+    /**
+     * 导出用户Excel
+     * @throws IOException
+     * @return
+     */
     @PostMapping("user/export")
     @ResponseBody
     @ApiOperation(value="导出用户", httpMethod = "POST",produces="application/json",notes = "导出用户")
@@ -101,7 +106,11 @@ public class BaseController {
         }
         return ResultBean.success();
     }
-
+    /**
+     * 导出用户 Word
+     * @throws IOException
+     * @return
+     */
     @PostMapping("user/doc")
     @ResponseBody
     @ApiOperation(value="导出用户doc", httpMethod = "POST",produces="application/json",notes = "导出用户doc")
@@ -109,9 +118,11 @@ public class BaseController {
 
         Configuration configuration = new Configuration();
         configuration.setDefaultEncoding("utf-8");
+        // 模板存放路径
         configuration.setClassForTemplateLoading(this.getClass(), "/templates/code");
+        // 获取模板文件
         Template template = configuration.getTemplate("UserInfo.ftl");
-
+        // 模拟数据
         List<Study> studyList =new ArrayList<>();
         studyList.add(new Study("gaolei","root","1","user","123456"));
         studyList.add(new Study("zhangsan","123","15","admin","12232"));
@@ -155,7 +166,11 @@ public class BaseController {
         }
         return ResultBean.success();
     }
-
+    /**
+     * 导出带图片的Word
+     * @throws IOException
+     * @return
+     */
     @PostMapping("user/exportPic")
     @ResponseBody
     @ApiOperation(value="导出带图片的Word", httpMethod = "POST",produces="application/json",notes = "导出带图片的Word")
@@ -181,6 +196,9 @@ public class BaseController {
         return  ResultBean.success();
     }
 
+    /**
+     * 图片流转base64字符串
+     * */
     public static String imageToString() {
         String imgFile = "E:\\gitee\\excel-poi\\src\\main\\resources\\static\\img\\a.png";
         InputStream in = null;
@@ -201,9 +219,5 @@ public class BaseController {
     public static void main(String[] args) {
         System.out.println("image:"+imageToString());
     }
-
-
-
-
 
 }
