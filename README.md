@@ -1,6 +1,3 @@
-# :alembic: 更新日志log
--[x] 2019/12/06 新增 poi-tl 测试demo
-
 # :star: 已实践
 - [x] poi自定义及样式导出Excel文件
 - [x] freemarker动态导出Word模板文件
